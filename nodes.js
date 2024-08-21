@@ -33,9 +33,9 @@ class MapNode {
 
         let attemptResults = []
         for (let connectedNode of this.#connectedTo) {
-            let attempt = connectedNode.#countHopsToRecursive(destination, checkedNodes, hopCount + 1);
-            if (attempt !== this.#FailedAttempt) {
-                attemptResults.push(attempt)
+            let hops = connectedNode.#countHopsToRecursive(destination, checkedNodes, hopCount + 1);
+            if (hops !== this.#FailedAttempt) {
+                attemptResults.push(hops)
             }
         }
 

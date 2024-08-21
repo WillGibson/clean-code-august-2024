@@ -175,7 +175,7 @@ describe("Number of hops", () => {
         nodeC = new MapNode("C");
         nodeD = new MapNode("D");
 
-        // will attempt A->B->C first, but A->C is the shortest
+        // Because of the order they are connected, will attempt A->B->C first, but A->C is the shortest
         nodeA.connectsTo(nodeD);
         nodeA.connectsTo(nodeB);
         nodeB.connectsTo(nodeC);

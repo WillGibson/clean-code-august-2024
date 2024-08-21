@@ -2,6 +2,7 @@ class MapNode {
     #connectedTo = [];
     #name;
     #FailedAttempt = -1
+
     constructor(name) {
         this.#name = name;
     }
@@ -11,10 +12,12 @@ class MapNode {
     }
 
     countHopsTo(destination) {
-        if (!this.canReach(destination)) {
+        const hops = this.#countHopsToRecursive(destination, [], 0);
+        if (hops !== this.#FailedAttempt) {
+            return hops;
+        } else {
             throw new Error();
         }
-        return this.#countHopsToRecursive(destination, [], 0);
     }
 
     #countHopsToRecursive(destination, checkedNodes, hopCounts) {

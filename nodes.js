@@ -6,28 +6,8 @@ class MapNode {
         this.#name = name;
     }
 
-    canReach(node) {
-        return this.#canTravelToRecursive(node, []);
-    }
-
-    #canTravelToRecursive(node, checkedNodes) {
-        if (checkedNodes.includes(this)) {
-            return false;
-        }
-
-        checkedNodes.push(this);
-
-        if (node === this) {
-            return true;
-        }
-
-        for (let connectedNode of this.#connectedTo) {
-            if (connectedNode.#canTravelToRecursive(node, checkedNodes)) {
-                return true;
-            }
-        }
-
-        return false;
+    canReach(destination) {
+        return this.#countHopsToRecursive(destination, [], 0) !== this.#FailedAttempt;
     }
 
     countHopsTo(destination) {

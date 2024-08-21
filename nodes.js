@@ -31,20 +31,15 @@ class MapNode {
 
         checkedNodes.push(this);
 
-        let attemptResults = []
+        let minHops = this.#FailedAttempt
         for (let connectedNode of this.#connectedTo) {
             let hops = connectedNode.#countHopsToRecursive(destination, checkedNodes, hopCount + 1);
-            if (hops !== this.#FailedAttempt) {
-                attemptResults.push(hops)
+            if (hops !== this.#FailedAttempt && (minHops === this.#FailedAttempt || hops < minHops)) {
+                minHops = hops;
             }
         }
 
-        if (attemptResults.length > 0) {
-            return Math.min(...attemptResults);
-        }
-
-        // there are no connected neighbours
-        return this.#FailedAttempt;
+        return minHops;
     }
 
     connectsTo(node) {

@@ -1,7 +1,7 @@
 class MapNode {
     #connectedTo = [];
     #name;
-    #FailedAttempt = -1
+    #FailedAttempt = Number.MAX_VALUE
 
     constructor(name) {
         this.#name = name;
@@ -31,19 +31,15 @@ class MapNode {
 
         checkedNodes.push(this);
 
-        let minHops = undefined
+        let minHops = this.#FailedAttempt
         for (let connectedNode of this.#connectedTo) {
             let hops = connectedNode.#countHopsToRecursive(destination, checkedNodes, hopCount + 1);
-            if (hops !== this.#FailedAttempt && (!minHops || hops < minHops)) {
+            if (hops < minHops) {
                 minHops = hops;
             }
         }
 
-        if (minHops) {
-            return minHops;
-        }
-
-        return this.#FailedAttempt;
+        return minHops;
     }
 
     connectsTo(node) {

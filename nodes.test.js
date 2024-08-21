@@ -168,4 +168,18 @@ describe("Number of hops", () => {
 
         expect(nodeA.countHopsTo(nodeF)).toEqual(1);
     });
+
+    test("finds the shortest route", () => {
+        nodeA = new MapNode("A");
+        nodeB = new MapNode("B");
+        nodeC = new MapNode("C");
+
+        // will attempt A->B->C first, but A->C is the shortest
+        nodeA.connectsTo(nodeB);
+        nodeB.connectsTo(nodeC);
+        nodeA.connectsTo(nodeC);
+
+        expect(nodeA.countHopsTo(nodeC)).toEqual(1);
+    });
+
 });

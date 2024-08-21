@@ -20,21 +20,27 @@ class MapNode {
         }
     }
 
-    #countHopsToRecursive(destination, checkedNodes, hopCounts) {
+    #countHopsToRecursive(destination, checkedNodes, hopCount) {
         if (destination === this) {
-            return hopCounts;
+            return hopCount;
         }
 
         if (checkedNodes.includes(this)) {
-            // return this.#countHopsToRecursive(node, checkedNodes, 0);
             return this.#FailedAttempt
         }
 
         checkedNodes.push(this);
 
+        let attemptResults = []
         for (let connectedNode of this.#connectedTo) {
-            let attempt = connectedNode.#countHopsToRecursive(destination, checkedNodes, hopCounts + 1);
-            if (attempt !== this.#FailedAttempt) return attempt
+            let attempt = connectedNode.#countHopsToRecursive(destination, checkedNodes, hopCount + 1);
+            if (attempt !== this.#FailedAttempt) {
+                attemptResults.push(attempt)
+            }
+        }
+
+        if (attemptResults.length > 0) {
+            return Math.min(...attemptResults);
         }
 
         // there are no connected neighbours

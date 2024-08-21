@@ -31,15 +31,19 @@ class MapNode {
 
         checkedNodes.push(this);
 
-        let minHops = this.#FailedAttempt
+        let minHops = undefined
         for (let connectedNode of this.#connectedTo) {
             let hops = connectedNode.#countHopsToRecursive(destination, checkedNodes, hopCount + 1);
-            if (hops !== this.#FailedAttempt && (minHops === this.#FailedAttempt || hops < minHops)) {
+            if (hops !== this.#FailedAttempt && (!minHops || hops < minHops)) {
                 minHops = hops;
             }
         }
 
-        return minHops;
+        if (minHops) {
+            return minHops;
+        }
+
+        return this.#FailedAttempt;
     }
 
     connectsTo(node) {
